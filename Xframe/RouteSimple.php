@@ -17,11 +17,6 @@ class RouteSimple implements RouteInterface
         return self::$instance;
     }
 
-    private function __construct()
-    {
-
-    }
-
     public function route(RequestAbstract $request): bool
     {
         $server = $request->getServer();
