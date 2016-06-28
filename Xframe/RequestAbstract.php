@@ -24,15 +24,22 @@ abstract class RequestAbstract
         if(!(self::$instance instanceof self)){
             self::$instance = new static();
         }
-        self::$instance->SERVER = $_SERVER;
-        self::$instance->REQUEST = $_REQUEST;
-        self::$instance->ENV = $_ENV;
-        self::$instance->QUERY = $_GET;
-        self::$instance->POST = $_POST;
-        self::$instance->FILES = $_FILES;
-        self::$instance->COOKIE = $_COOKIE;
+        self::$instance->construct();
         return self::$instance;
     }
+
+    final private function __construct()
+    {
+        $this->SERVER = $_SERVER;
+        $this->REQUEST = $_REQUEST;
+        $this->ENV = $_ENV;
+        $this->QUERY = $_GET;
+        $this->POST = $_POST;
+        $this->FILES = $_FILES;
+        $this->COOKIE = $_COOKIE;
+    }
+
+    abstract protected function construct();
 
     final public function getServer(): array
     {
@@ -81,12 +88,9 @@ abstract class RequestAbstract
 
     final public function setController(string $controller): bool
     {
-        if($this->routed)
+        if(empty($controller) || $this->routed)
         {
             return false;
-        }
-        if(empty($controller)){
-            throw new Exception('Controller is empty');
         }
         $this->controller = strtolower($controller);
         return true;

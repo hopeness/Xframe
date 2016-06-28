@@ -61,13 +61,13 @@ final class Xframe {
     static private $instance;
     private $dispatcher;
     
-    static public function init(string $app_path = './'): self
+    static public function init(string $appPath = './'): self
     {
         if(!(self::$instance instanceof self))
         {
-            self::$instance = new self($app_path);
+            self::$instance = new self($appPath);
         }
-        self::$instance->setAppPath($app_path);
+        self::$instance->setAppPath($appPath);
         return self::$instance;
     }
 
@@ -76,17 +76,6 @@ final class Xframe {
         $this->dispatcher = Dispatcher::getInstance();
     }
 
-    private function setAppPath(string $app_path): bool
-    {
-        $appRealPath = realpath($app_path);
-        if(!$appRealPath)
-        {
-            throw new Exception('App path not exists');
-        }
-        define('APP_PATH', $appRealPath.'/');
-        return true;
-    }
-    
     public function bootstrap(): self
     {
         try{
@@ -124,7 +113,11 @@ final class Xframe {
         {
             $router = $this->dispatcher->getRouter();
             $router->addRouter('default', RouteSimple::getInstance());
-            $router->route();
+            $routeStatus = $router->route();
+            if($routeStatus === false)
+            {
+                throw new Exception('Route failed');
+            }
             $controller = $this->dispatcher->getRequest()->getController();
             $params = $this->dispatcher->getRequest()->getParams();
             $class = '\\Controller\\'.$controller;
@@ -148,6 +141,17 @@ final class Xframe {
             echo $e->getMessage();
             return false;
         }
+    }
+
+    private function setAppPath(string $appPath): bool
+    {
+        $appRealPath = realpath($appPath);
+        if(!$appRealPath)
+        {
+            throw new Exception('App path not exists');
+        }
+        define('APP_PATH', $appRealPath.'/');
+        return true;
     }
     
 }

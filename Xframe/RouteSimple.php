@@ -17,26 +17,31 @@ class RouteSimple implements RouteInterface
         return self::$instance;
     }
 
+    private function __construct()
+    {
+
+    }
+
     public function route(RequestAbstract $request): bool
     {
         $server = $request->getServer();
-        $path = '';
+        $pathInfo = '';
         if(isset($server['PATH_INFO']))
         {
-            $path = $server['PATH_INFO'];
+            $pathInfo = $server['PATH_INFO'];
         }
         elseif(isset($server['REQUEST_URI']))
         {
-            $path = $server['REQUEST_URI'];
+            $pathInfo = $server['REQUEST_URI'];
         }
         else
         {
 
         }
-        $controller = trim($path, '/');
-        $controller = empty($controller) ? 'index' : $controller;
-        $request->setController($controller);
-        return true;
+        $pathInfo = trim($pathInfo, '/');
+        $controller = empty($pathInfo) ? 'index' : $pathInfo;
+        $ret = $request->setController($controller);
+        return $ret;
     }
 
 }

@@ -25,7 +25,6 @@ final class Router
     private function __construct(RequestAbstract $request)
     {
         $this->request = $request;
-        
     }
 
     public function addRouter($name, RouteInterface $router): bool
