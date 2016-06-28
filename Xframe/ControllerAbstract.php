@@ -15,7 +15,7 @@ abstract class ControllerAbstract
 
     abstract public function main();
 
-    protected function getDispatcher()
+    final protected function getDispatcher()
     {
         return $this->diapatcher;
     }

@@ -7,7 +7,7 @@
  */
 
 /**
- * 强类型判断
+ * strict type
  */
 declare(strict_types=1);
 
@@ -21,32 +21,32 @@ use Xframe\Dispatcher,
     Xframe\BootstrapAbstract;
 
 /**
- * Xframe框架标识
+ * Xframe sysbol
  */
 const XFRAME = true;
 
 /**
- * Xframe版本标识
+ * Xframe version
  */
 const XFRAME_VERSION = '0.0.1 beta';
 
 /**
- * 应用入口地址
+ * App enter
  */
 define('INDEX_PATH', getcwd().'/');
 
 /**
- * 框架地址
+ * Define path of xframe
  */
 define('X_PATH', __DIR__.'/');
 
 /**
- * 框架内核地址
+ * Define path of core
  */
 define('XFRAME_PATH', X_PATH.'Xframe/');
 
 /**
- * 引入必要文件
+ * Require base file
  */
 require XFRAME_PATH.'Dispatcher.php';
 require XFRAME_PATH.'LoaderInterface.php';
@@ -54,13 +54,26 @@ require XFRAME_PATH.'Loader.php';
 require XFRAME_PATH.'BaseLoader.php';
 
 /**
- * Xframe
+ * Xframe class
  */
 final class Xframe {
     
+    /**
+     * Core instance
+     */
     static private $instance;
+
+    /**
+     * Dispatcher instance
+     */
     private $dispatcher;
     
+
+    /**
+     * init
+     * @param string $appPath app path, default "./"
+     * @return Xframe
+     */
     static public function init(string $appPath = './'): self
     {
         if(!(self::$instance instanceof self))
@@ -71,11 +84,19 @@ final class Xframe {
         return self::$instance;
     }
 
+    /**
+     * private __construct
+     * @param string $appPath  app path
+     */
     private function __construct(string $appPath)
     {
         $this->dispatcher = Dispatcher::getInstance();
     }
 
+    /**
+     * public bootstrap
+     * @return Xframe
+     */
     public function bootstrap(): self
     {
         try{
@@ -107,6 +128,10 @@ final class Xframe {
         }
     }
     
+    /**
+     * public run
+     * @return Xframe
+     */
     public function run(): bool
     {
         try
@@ -143,6 +168,11 @@ final class Xframe {
         }
     }
 
+    /**
+     * private set app path
+     * @param string $appPath app path
+     * @return bool
+     */
     private function setAppPath(string $appPath): bool
     {
         $appRealPath = realpath($appPath);

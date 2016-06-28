@@ -33,7 +33,7 @@ abstract class RequestAbstract
         $this->SERVER = $_SERVER;
         $this->REQUEST = $_REQUEST;
         $this->ENV = $_ENV;
-        $this->QUERY = $_GET;
+        $this->GET = $_GET;
         $this->POST = $_POST;
         $this->FILES = $_FILES;
         $this->COOKIE = $_COOKIE;
