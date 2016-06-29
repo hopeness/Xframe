@@ -12,12 +12,6 @@
 declare(strict_types=1);
 
 use Xframe\Dispatcher,
-    Xframe\Loader,
-    Xframe\Application,
-    Xframe\Router,
-    Xframe\RouteSimple,
-    Xframe\RequestHttp,
-    Xframe\ResponseHttp,
     Xframe\BootstrapAbstract;
 
 /**
@@ -110,10 +104,12 @@ final class Xframe {
             {
                 throw new Expection('Not extends BootstrapAbstract');
             }
+            // Use reflection to find public function of bootstrap
             $reflect = new ReflectionClass($bootstrap);
             $methods = $reflect->getMethods(ReflectionMethod::IS_PUBLIC);
             foreach($methods as $method)
             {
+                // Execute every public function
                 $bootstrap->{$method->name}($this->dispatcher);
             }
             return $this;
@@ -136,15 +132,18 @@ final class Xframe {
     {
         try
         {
+            // Route
             $router = $this->dispatcher->getRouter();
-            $router->addRouter('default', RouteSimple::getInstance());
             $routeStatus = $router->route();
             if($routeStatus === false)
             {
                 throw new Exception('Route failed');
             }
+            // Get controller
             $controller = $this->dispatcher->getRequest()->getController();
+            // Get params
             $params = $this->dispatcher->getRequest()->getParams();
+            // Make namespace of controller
             $class = '\\Controller\\'.$controller;
             if(!is_callable([$class, 'main']))
             {
@@ -152,6 +151,7 @@ final class Xframe {
             }
             $app = new $class($this->dispatcher);
             $app->construct();
+            // Call controller
             call_user_func_array(array($app, 'main'), $params);
             $app->destruct();
             return true;
