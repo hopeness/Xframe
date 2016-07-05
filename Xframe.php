@@ -116,11 +116,11 @@ final class Xframe {
         }
         catch(Expection $e)
         {
-            exit('Expection');
+            exit($e->getMessage());
         }
         catch(Error $e)
         {
-            exit('Error');
+            exit($e->getMessage());
         }
     }
     
@@ -144,7 +144,7 @@ final class Xframe {
             // Get params
             $params = $this->dispatcher->getRequest()->getParams();
             // Make namespace of controller
-            $class = '\\Controller\\'.$controller;
+            $class = '\\Controller\\'.ucfirst($controller);
             if(!is_callable([$class, 'main']))
             {
                 throw new Exception('Controller '.$controller.' is not exists');
