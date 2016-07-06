@@ -30,7 +30,6 @@ class RouteRe implements RouteInterface
         {
 
         }
-        $pathInfo = trim($pathInfo, '/');
         $controller = '';
         foreach($this->conf as $pattern => $controller)
         {
