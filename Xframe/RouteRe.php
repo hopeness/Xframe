@@ -4,8 +4,15 @@ namespace Xframe;
 use Xframe\RouteInterface,
     Xframe\RequestAbstract;
 
-class RouteSimple implements RouteInterface
+class RouteRe implements RouteInterface
 {
+
+    private $conf;
+
+    public function __construct(array $conf)
+    {
+        $this->conf = $conf;
+    }
 
     public function route(RequestAbstract $request): bool
     {
@@ -24,7 +31,17 @@ class RouteSimple implements RouteInterface
 
         }
         $pathInfo = trim($pathInfo, '/');
-        $controller = empty($pathInfo) ? 'index' : $pathInfo;
+        $controller = '';
+        foreach($this->conf as $pattern => $controller)
+        {
+            if(preg_match('#'.$pattern.'#', $pathInfo, $matches))
+            {
+                $controller = $controller;
+                array_shift($matches);
+                $request->setParams($matches);
+            }
+        }
+
         $ret = $request->setController($controller);
         return $ret;
     }
