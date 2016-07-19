@@ -2,14 +2,15 @@
 
 namespace Xframe;
 
-use Xframe\ViewInterface;
+use Xframe\ViewInterface,
+    Xframe\ViewSimple;
 
 final class View
 {
     static private $instance;
 
     private $views = [];
-    private $view;
+    private $viewPoint;
 
     static public function getInstance(): self
     {
@@ -20,50 +21,35 @@ final class View
         return self::$instance;
     }
 
-    public function __construct()
-    {
-
-    }
-
-    public function setView($name, ViewInterface $view): bool
+    public function addView($name, ViewInterface $view): bool
     {
         $this->views[$name] = $view;
         return true;
     }
 
-    public function routed($name, ViewInterface $view): bool
+    public function selectView($name): bool
     {
-        $this->views[$name] = $view;
-        return true;
-    }
-
-    public function setTpl($name): bool
-    {
-        if(isset($views[$name]))
+        if(isset($this->views[$name]))
         {
-            $view = $views[$name];
+            $this->viewPoint = &$this->views[$name];
             return true;
         }
-        else
+        return false;
+    }
+
+    public function setDefault(): bool
+    {
+        if(empty($this->views))
         {
-            return false;
+            $this->views['default'] = new ViewSimple();
         }
-        return $this->diapatcher->getView()->setTpl($name);
+        $this->viewsPoint = $this->views[key($this->views)];
+        return true;
     }
 
-    public function render(string $tplPath = null, array $tplVars = null): string
+    public function getView(): ViewInterface
     {
-        return $this->diapatcher->getView()->render($tplPath, $tplVars);
-    }
-
-    public function display(string $tplPath = null, array $tplVars = null): bool
-    {
-        return $this->diapatcher->getView()->display($tplPath, $tplVars);
-    }
-
-    public function assign(mixed $name, mixed $value): bool
-    {
-        return $this->diapatcher->getView()->assign($name, $value);
+        return $this->viewsPoint;
     }
 
 }

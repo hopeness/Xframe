@@ -139,6 +139,7 @@ final class Xframe {
             {
                 throw new Exception('Route failed');
             }
+            $this->dispatcher->getView()->setDefault();
             // Get controller
             $controller = $this->dispatcher->getRequest()->getController();
             // Get params

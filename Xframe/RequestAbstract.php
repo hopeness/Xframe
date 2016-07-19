@@ -88,7 +88,7 @@ abstract class RequestAbstract
 
     final public function setController(string $controller): bool
     {
-        if(empty($controller) || $this->routed)
+        if(empty($controller))
         {
             return false;
         }
@@ -103,17 +103,7 @@ abstract class RequestAbstract
 
     final public function setParams(array $params): bool
     {
-        if($this->routed)
-        {
-            return false;
-        }
         $this->params = $params;
-        return true;
-    }
-
-    final public function routed(): bool
-    {
-        $this->routed = true;
         return true;
     }
 

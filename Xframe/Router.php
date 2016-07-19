@@ -52,7 +52,6 @@ final class Router
                 break;
             }
         }
-        $this->request->routed();
         return $routeRet;
     }
 
