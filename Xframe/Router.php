@@ -42,7 +42,7 @@ final class Router
     public function route(): bool
     {
         if(empty($this->routers)){
-            $this->routers['default'] = RouteSimple::getInstance();
+            $this->routers['default'] = new RouteSimple();
         }
         $routeRet = false;
         foreach($this->routers as $router){

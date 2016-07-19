@@ -1,16 +1,17 @@
 <?php
-namespace Xframe\Api;
+namespace Xframe;
 
-interface ViewInterface {
+interface ViewInterface
+{
 
-    public function render(string $view_path, array $tpl_vars = NULL) :string;
+    public function render(string $tplPath = null, array $tplVars = null): string;
     
-    public function display(string $view_path, array $tpl_vars = NULL) :bool;
+    public function display(string $tplPath = null, array $tplVars = null): bool;
     
-    public function assign(mixed $name, mixed $value = NULL): bool;
+    public function assign(mixed $name, mixed $value): bool;
     
-    public function setScriptPath(string $view_directory): bool;
+    public function setTplPath(string $dir): bool;
 
-    public function getScriptPath() :string;
+    public function getTplPath(): string;
 
 }

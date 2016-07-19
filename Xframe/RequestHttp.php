@@ -8,7 +8,6 @@ final class RequestHttp extends RequestAbstract
     private $method;
     private $language;
 
-
     protected function construct()
     {
         $this->method = $this->SERVER['REQUEST_METHOD'];

@@ -14,23 +14,23 @@ use Xframe\Loader,
     Xframe\ResponseAbstract,
     Xframe\ResponseHttp,
     Xframe\ResponseCli,
-    Xframe\Router;
+    Xframe\Router,
+    Xframe\View;
 
-final class Dispatcher {
+final class Dispatcher
+{
 
     static private $instance;
-
     private $loaderInstance;
-
     private $requestInstance;
-
     private $responseInstance;
-
     private $routerInstance;
+    private $viewInstance;
 
-
-    static public function getInstance(): self {
-        if(!(self::$instance instanceof self)){
+    static public function getInstance(): self
+    {
+        if(!(self::$instance instanceof self))
+        {
             self::$instance = new self();
         }
         return self::$instance;
@@ -50,6 +50,7 @@ final class Dispatcher {
             $this->responseInstance = ResponseHttp::getInstance();
         }
         $this->routerInstance = Router::getInstance($this->requestInstance);
+        $this->viewInstance = View::getInstance($this->requestInstance);
     }
 
     public function getLoader(): Loader
@@ -65,6 +66,11 @@ final class Dispatcher {
     public function getRouter(): Router
     {
         return $this->routerInstance;
+    }
+
+    public function getView(): View
+    {
+        return $this->viewInstance;
     }
 
     public function getResponse(): ResponseAbstract

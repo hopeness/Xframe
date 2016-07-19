@@ -112,7 +112,6 @@ final class Xframe {
                 // Execute every public function
                 $bootstrap->{$method->name}($this->dispatcher);
             }
-            return $this;
         }
         catch(Expection $e)
         {
@@ -122,6 +121,7 @@ final class Xframe {
         {
             exit($e->getMessage());
         }
+        return $this;
     }
     
     /**
