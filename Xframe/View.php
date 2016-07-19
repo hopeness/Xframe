@@ -43,7 +43,7 @@ final class View
         {
             $this->views['default'] = new ViewSimple();
         }
-        $this->viewsPoint = $this->views[key($this->views)];
+        $this->viewsPoint = &$this->views[key($this->views)];
         return true;
     }
 
