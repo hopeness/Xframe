@@ -47,7 +47,7 @@ final class View
         return true;
     }
 
-    public function getView(): ViewInterface
+    public function getCurrentView(): ViewInterface
     {
         return $this->viewsPoint;
     }

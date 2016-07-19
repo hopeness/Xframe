@@ -139,12 +139,13 @@ final class Xframe {
             {
                 throw new Exception('Route failed');
             }
-            $this->dispatcher->getView()->setDefault();
             // Get controller
             $controller = $this->dispatcher->getRequest()->getController();
+            define('CONTROLLER', $controller);
             // Get params
             $params = $this->dispatcher->getRequest()->getParams();
             // Make namespace of controller
+            $this->dispatcher->getView()->setDefault();
             $class = '\\Controller\\'.ucfirst($controller);
             if(!is_callable([$class, 'main']))
             {

@@ -27,17 +27,17 @@ abstract class ControllerAbstract
 
     final protected function render(string $tplPath = null, array $tplVars = null): string
     {
-        return $this->diapatcher->getView()->getView()->render($tplPath, $tplVars);
+        return $this->diapatcher->getView()->getCurrentView()->render($tplPath, $tplVars);
     }
 
     final protected function display(string $tplPath = null, array $tplVars = null): bool
     {
-        return $this->diapatcher->getView()->getView()->display($tplPath, $tplVars);
+        return $this->diapatcher->getView()->getCurrentView()->display($tplPath, $tplVars);
     }
 
     final protected function assign($name, $value): bool
     {
-        return $this->diapatcher->getView()->getView()->assign($name, $value);
+        return $this->diapatcher->getView()->getCurrentView()->assign($name, $value);
     }
 
     public function destruct(){}
