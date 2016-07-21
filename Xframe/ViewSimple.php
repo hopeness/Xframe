@@ -15,15 +15,19 @@ class ViewSimple implements ViewInterface
     public function __construct()
     {
         $this->basePath = APP_PATH.'View/';
-        $this->tplFile = CONTROLLER.self::TPL_EXT;
     }
 
     public function render(string $tplPath = null, array $tplVars = null): string
     {
         ob_start();
-        $this->display($tplPath, $tplVars);
+        $status = $this->display($tplPath, $tplVars);
         $data = ob_get_contents();
         ob_end_clean();
+        if($status === false)
+        {
+            echo $data;
+            return '';
+        }
         return $data;
     }
     
@@ -31,7 +35,14 @@ class ViewSimple implements ViewInterface
     {
         try
         {
-            $tpl = $this->basePath.$this->tplFile;
+            if($tplPath === null)
+            {
+                $tplPath = CONTROLLER;
+            }
+            if(is_array($tplVars)){
+                $this->assign($tplVars);
+            }
+            $tpl = $this->basePath.$tplPath.self::TPL_EXT;
             if(is_file($tpl))
             {
                 extract($this->vars);
@@ -73,6 +84,7 @@ class ViewSimple implements ViewInterface
                 throw new Exception('Path not extends');
             }
             $this->basePath = $path.'/';
+            return true;
         }
         catch(Exception $e)
         {
