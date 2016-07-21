@@ -8,7 +8,7 @@ interface ViewInterface
     
     public function display(string $tplPath = null, array $tplVars = null): bool;
     
-    public function assign($name, $value): bool;
+    public function assign($name, $value = null): bool;
     
     public function setTplPath(string $dir): bool;
 

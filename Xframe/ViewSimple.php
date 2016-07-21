@@ -6,7 +6,7 @@ use Xframe\ViewInterface;
 class ViewSimple implements ViewInterface
 {
 
-    const TPL_EXT = '.tpl.php';
+    const TPL_EXT = '.phtml';
 
     private $basePath;
     private $tplFile;
@@ -20,7 +20,11 @@ class ViewSimple implements ViewInterface
 
     public function render(string $tplPath = null, array $tplVars = null): string
     {
-
+        ob_start();
+        $this->display($tplPath, $tplVars);
+        $data = ob_get_contents();
+        ob_end_clean();
+        return $data;
     }
     
     public function display(string $tplPath = null, array $tplVars = null): bool
@@ -49,20 +53,41 @@ class ViewSimple implements ViewInterface
         }
     }
     
-    public function assign($name, $value): bool
+    public function assign($name, $value = null): bool
     {
-        $this->vars[$name] = $value;
+        if(is_array($name))
+        {
+            array_merge($this->vars, $name);
+        }else{
+            $this->vars[$name] = $value;
+        }
         return true;
     }
     
-    public function setTplPath(string $dir): bool
+    public function setTplPath(string $path): bool
     {
-        return true;
+        try
+        {
+            $path = realpath($path);
+            if($path === false){
+                throw new Exception('Path not extends');
+            }
+            $this->basePath = $path.'/';
+        }
+        catch(Exception $e)
+        {
+            echo $e->getMessage();
+        }
+        finally
+        {
+            return false;
+        }
+        
     }
 
     public function getTplPath(): string
     {
-
+        return $this->basePath;
     }
 
 }
