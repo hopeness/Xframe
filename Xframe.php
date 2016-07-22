@@ -146,7 +146,8 @@ final class Xframe {
             $params = $this->dispatcher->getRequest()->getParams();
             // Make namespace of controller
             $this->dispatcher->getView()->setDefault();
-            $class = '\\Controller\\'.ucfirst($controller);
+            $class = '\\Controller\\'.ucfirst($controller).'Controller';
+            //echo $class;exit();
             if(!is_callable([$class, 'main']))
             {
                 throw new Exception('Controller '.$controller.' is not exists');
@@ -158,14 +159,16 @@ final class Xframe {
             $app->destruct();
             return true;
         }
-        catch(Expection $e)
+        catch(Exception $e)
         {
             echo $e->getMessage();
-            return false;
         }
         catch(Error $e)
         {
             echo $e->getMessage();
+        }
+        finally
+        {
             return false;
         }
     }
