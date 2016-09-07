@@ -31,11 +31,11 @@ class RouteRe implements RouteInterface
 
         }
         $controller = '';
-        foreach($this->conf as $pattern => $controller)
+        foreach($this->conf as $pattern => $ctl)
         {
             if(preg_match('#'.$pattern.'#', $pathInfo, $matches))
             {
-                $controller = $controller;
+                $controller = $ctl;
                 array_shift($matches);
                 $request->setParams($matches);
             }

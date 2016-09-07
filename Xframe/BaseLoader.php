@@ -26,7 +26,11 @@ final class BaseLoader implements LoaderInterface
                 $this->classFile = XFRAME_PATH.ltrim($this->classPath, $prefix.'/').'.php';
                 break;
             case 'Controller':
+                $this->classFile = APP_PATH.substr($this->classPath, 0, strlen($this->classPath) - 10).'.php';
+                break;
             case 'Model':
+                $this->classFile = APP_PATH.substr($this->classPath, 0, strlen($this->classPath) - 5).'.php';
+                break;
             case 'Library':
             case 'Vendor':
                 $this->classFile = APP_PATH.$this->classPath.'.php';
