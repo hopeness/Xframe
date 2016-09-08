@@ -31,23 +31,8 @@ final class BaseLoader implements LoaderInterface
             case 'Model':
                 $this->classFile = APP_PATH.substr($this->classPath, 0, strlen($this->classPath) - 5).'.php';
                 break;
-            case 'Library':
-            case 'Vendor':
-                $this->classFile = APP_PATH.$this->classPath.'.php';
-                break;
             default:
-                // if(!empty($this->path))
-                // {
-                //     foreach($this->extPath as $path)
-                //     {
-                //         $file = $path.$this->classPath;
-                //         if(is_file($file))
-                //         {
-                //             $this->classFile = $file;
-                //             break;
-                //         }
-                //     }
-                // }
+                $this->classFile = APP_PATH.$this->classPath.'.php';
                 break;
         }
         if(is_file($this->classFile))
